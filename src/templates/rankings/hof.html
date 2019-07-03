@@ -1,0 +1,29 @@
+{% extends 'base/layout.html' %}
+{% block title %} Rankings {% endblock %}
+{% block content %}
+
+<table class="card-area table table-striped table-dark table-sm">
+    <thead>
+
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Country</th>
+            <th scope="col">Points</th>
+            <th scope="col">Rank</th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        {% for object in data %}
+        <tr>
+            <td>{{ object.user.username }}</td>
+            <td> <img src="https://www.countryflags.io/{{ object.user.country|lower }}/flat/24.png"></td>
+            <td>{{ object.points }}</td>
+            <td>{{ object.rankStr }}</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}

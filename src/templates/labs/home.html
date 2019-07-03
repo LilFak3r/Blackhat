@@ -1,0 +1,76 @@
+{% extends 'base/layout.html' %}
+{% block title %} Challenges {% endblock %}
+{% block content %}
+
+{% include 'base/errors.html' %}
+
+<ul>
+
+    {% for ch in challenges %}
+    <li>
+        <div class="ch-div 
+        {% if ch.points <= 15%}
+            ch-ez
+        {% elif ch.points > 15 and ch.points < 30 %}
+            ch-mid
+        {% else %}
+            ch-hard 
+        {% endif %}">
+
+            [{{ ch.points}} Points]
+            <span style="color:#FFDC00">{{ ch.title }}</span>
+            [by {{ ch.author.username }}]
+            <span style="color: #39CCCC">[{{ ch.solvers.count }} solvers]</span>
+            {% load static %}
+            <span style="color: #2ECC71">{{ ch.rate_pro }}</span>
+            <img src="{% static 'img/pro.png' %}" alt="" height="26px" width="26px" title="Rate Pro" />
+            <span style="color: #E74C3C">{{ ch.rate_sucks }}</span>
+            <img src="{% static 'img/sucks.png' %}" alt="" height="26px" width="26px" title="Rate Sucks" />
+            {{ ch.created|date:'d/m/Y' }}
+            <button class="btn btn-outline-light btn-sm" type="button" data-toggle="collapse"
+                data-target="#id_{{ ch.id }}" aria-expanded="false" aria-controls="collapseExample">
+                More
+            </button>
+            <div class="collapse" id="id_{{ ch.id }}">
+                <div class="card card-body">
+                    {{ ch.description }} <br>
+                    <p>
+                        <button class="btn btn-outline-light btn-sm"> <img src="{% static 'img/download.png' %}" alt=""
+                                height="26px" width="26px" title="Rate Pro" /> Download</button> <br>
+                        <p>Zip password: {{ ch.zip_pass }} <br>
+                            sha256: {{ ch.sha256 }} <br>
+                            <small> <i>If u wanna test - flag : {{ ch.flag }}</i> </small>
+                        </p>
+                    </p>
+                    <form class="form-group" method="POST">
+
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="flag" id="" placeholder="Your Flag here">
+                            <input type="hidden" name="challenge_id" id="" value="{{ ch.id }}">
+                            <div class="input-group-append">
+                                {% if user.is_authenticated %}
+                                {% if ch in user.chg_solved.all %}
+                                <button type="submit" class="btn btn-outline-success btn-sm" disabled>You have
+                                    solved this challenge already</button>
+                                {% else %}
+                                <button type="submit" class="btn btn-outline-success btn-sm">Submit</button>
+
+                                {% endif %}
+                                {% else %}
+                                <button type="submit" class="btn btn-outline-success btn-sm" disabled>You need to <a
+                                        href="{% url 'accounts:log_in'  %}">log in</a> to submit this challenge</button>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </li>
+    {% endfor %}
+
+</ul>
+{% endblock %}

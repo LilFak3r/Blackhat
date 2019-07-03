@@ -1,0 +1,168 @@
+{% extends "base/layout.html" %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="card-area">
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <p>
+                    {% if user.country %}
+                    <img src="https://www.countryflags.io/{{ user.country|lower }}/flat/32.png"
+                        title="{{ user.country }}">
+                    {% endif %}
+                    <b>{{ user.username }}</b>
+                </p>
+                <p>
+                    <img src="{% static 'img/points.png' %}" alt="" height="25px" width="25px" title="Points" />
+                    {{ user.profile.points }}
+                    <img src="{% static 'img/rank.png' %}" alt="" height="30px" width="30px" title="Rank" />
+                    {{ user.profile.rankStr }}
+                </p>
+
+
+            </div>
+            <div class="col text-right">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'accounts:edit_profile' user.id  %}" class="btn btn-sm btn-outline-info">
+                        Edit profile</a>
+                    <button class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#exampleModalCenter">
+                        2FA details </button>
+                </div>
+            </div>
+        </div>
+
+        <hr style="border-color:indianred">
+
+        <div class="row">
+            <div class="col">
+                <h5>
+                    <img src="{% static 'img/c-s.png' %}" alt="" height="30px" width="30px" />
+                    Challenges
+                </h5>
+                <small>{{ user.username }} has solved {{ user.chg_solved.all.count }} challenges</small>
+                <table class="table table-bordeless table-sm" style="color:darkgray; text-align:center">
+                    <thead style="color:indianred">
+                        <tr>
+                            <th>Category</th>
+                            <th>Completion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">General Skills</th>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"> %
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Crypto</th>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"> %
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Stego</th>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"> %
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Binary Exploitation</th>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"> %
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Web Exploitation</th>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"> %
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Forensics</th>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"> %
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Reversing</th>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"> %
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <ul>
+                    {% for ch in user.chg_solved.all %}
+                    <li>{{ ch }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+        {% if user.two_fa.enabled != True %}
+
+        <div class="alert alert-danger" role="alert">
+            WARNING! You need to
+            <a href="{% url 'sec:two_fa'  %}" class="btn btn-outline-danger">Generate Key & Enable MFA</a>,
+            otherwise you will NOT be able to login!
+        </div>
+
+        {% else %}
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">2FA Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Your active key : <strong>{{ user.two_fa.auth_key }}</strong> <br>
+                        Created at : {{ user.two_fa.created_at|date:"f, d/m/Y " }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+
+
+    {% endblock %}

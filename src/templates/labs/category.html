@@ -1,0 +1,27 @@
+{% extends 'base/layout.html' %}
+{% block title %} Challenges {% endblock %}
+{% block content %}
+
+<div class="card-area" align="center">
+
+        <ul>
+                <li> <a class="undl" href="{% url 'labs:labs_by_category' 'GS' %}">General Skills</a> <span
+                                class="badge badge-light">{{ GS }}</span></li>
+                <li> <a class="undl" href="{% url 'labs:labs_by_category' 'CR' %}">Crypto</a> <span
+                                class="badge badge-light">{{ CR }}</span>
+                </li>
+                <li> <a class="undl" href="{% url 'labs:labs_by_category' 'ST' %}"> Stego</a> <span
+                                class="badge badge-light">{{ ST }}</span>
+                </li>
+                <li> <a class="undl" href="{% url 'labs:labs_by_category' 'BE' %}">Binary Exploitation</a> <span
+                                class="badge badge-light">{{ BE }}</span></li>
+                <li> <a class="undl" href="{% url 'labs:labs_by_category' 'WE' %}">Web Exploitation</a> <span
+                                class="badge badge-light">{{ WE }}</span></li>
+                <li> <a class="undl" href="{% url 'labs:labs_by_category' 'FR' %}"> Forensics</a> <span
+                                class="badge badge-light">{{ FR }}</span></li>
+                <li> <a class="undl" href="{% url 'labs:labs_by_category' 'RV' %}"> Reversing</a> <span
+                                class="badge badge-light">{{ RV }}</span></li>
+        </ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base/particles_layout.html' %}
+{% block title %} Can you pass this invite challenge? {% endblock %}
+{% block content %}
+
+<form method="POST" autocomplete="off">
+
+    {% csrf_token %}
+    {% include 'base/errors.html' %}
+
+    <h3 style="text-align: left;">Can you pass this invite challenge?</h3>
+    <h5 style="text-align: left; color:darkgray">Feel free to hack your way in :)</h5>
+    <p>
+        <div class="input-group mb-3">
+            {{ form.invite_code }}
+            <div class="input-group-append">
+                <button class="btn btn-outline-success rounded-0" type="submit" id="btn-signup">Sign Up</button>
+            </div>
+        </div>
+        <small id="codeInput" class="form-text text-muted">If you are already a member click <a
+                href="{% url 'accounts:log_in'  %}">here</a>
+            to login</small>
+    </p>
+
+</form>
+
+{% load static %}
+<script src="{% static 'js/invite.js' %}"></script>
+
+{% endblock %}

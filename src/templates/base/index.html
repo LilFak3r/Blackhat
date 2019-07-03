@@ -1,0 +1,60 @@
+{% extends 'base/layout.html' %}
+{% block title %} BLACKHAT {% endblock %}
+{% block content %}
+
+<div class="card-area">
+    <div class="row index-stats">
+        <div class="col">
+            {{ users }} Users
+            {% load static %}
+            <div class="btn-group" role="group">
+                <a href="{% url 'accounts:users_details' %}" class="btn btn-sm btn-outline-info">
+                    Search Users
+                </a>
+                <a href="{% url 'accounts:map' %}" class="btn btn-sm btn-outline-info">
+                    <img src="{% static 'img/map.png' %}" alt="" height="26px" width="26px" />
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <li>{{ challenges }} Challenges</li>
+        </div>
+        <div class="col">
+            <li> # Machines</li>
+        </div>
+    </div>
+
+    <hr style="border-color:indianred">
+
+    <h2 style="text-align: center">Features</h2>
+    <div class="row">
+        <div class="col-sm">
+            <img src="{% static 'img/plus.png' %}" alt="" height="40px" width="40px" />
+            Massive Lab <br>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore libero fugiat inventore praesentium ipsum
+            vero ducimus eum voluptas eius sint ipsam, exercitationem placeat consequuntur officiis deserunt! Voluptas
+            id dolores error?
+        </div>
+        <div class="col-sm">
+            <img src="{% static 'img/trophy.png' %}" alt="" height="40px" width="40px" />
+            Ranks & Badges <br>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos vel voluptatibus esse provident facere.
+            Recusandae facilis iure provident voluptatum suscipit doloremque distinctio fugiat quasi tenetur similique,
+            maiores debitis harum aspernatur!
+        </div>
+    </div>
+
+    <hr style="border-color:indianred">
+
+    <p>
+        Take the invite challenge and join BLACKHAT today
+        <a href="{% url 'invite:invite_challenge' %}">
+            <button type="button" class="btn btn-sm btn-outline-success">Join Now</button>
+        </a>
+        <a href="#">
+            <button type="button" class="btn btn-sm btn-outline-light">Learn more</button>
+        </a>
+    </p>
+</div>
+
+{% endblock %}

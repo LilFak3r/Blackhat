@@ -1,0 +1,51 @@
+{% extends 'base/layout.html' %}
+{% block title %} Search User {% endblock %}
+{% block content %}
+
+<form method="POST">
+
+    {% csrf_token %}
+    {% include 'base/errors.html' %}
+
+    <div class="card-area">
+        <div class="form-group row">
+            <div class="col-sm">
+                Looking for User with <br>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="usernameInpu1t" name="username" placeholder="Username">
+                    {% include 'accounts/country_codes.html' %}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </div>
+                </div>
+                <small>Note: case-sensitive</small>
+
+            </div>
+        </div>
+
+        {% load search_filter %}
+        {% if meth == "POST" %}
+        <p class="db_res">
+            Found {{ res.count }} User
+            <ul>
+                {% for user in res %}
+                {% autoescape off %}
+                <li class="db_res_li">
+                    {% load static %}
+                    <img src="{% static 'img/username_search.png' %}" alt="" height="26px" width="26px"
+                        title="Username" />
+                    {{ user.username|highlight:pattern_u}}
+                    <img src="{% static 'img/country.png' %}" alt="" height="26px" width="26px" title="Country" />
+                    {{ user.country|highlight:pattern_c }}
+                    <img src="{% static 'img/achivement.png' %}" alt="" height="26px" width="26px" title="Rank" />
+                    {{ user.profile.rankStr}} </li>
+                {% endautoescape %}
+                {% endfor %}
+            </ul>
+        </p>
+        {% endif %}
+
+    </div>
+</form>
+
+{% endblock %}
